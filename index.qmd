@@ -172,8 +172,48 @@ Usage$activity
 ```
 
 
+# Usage 2022 - 2023
 
-# Specification de certains cours
+```{r}
+#| fig-width: 10
+#| fig-height: 6
+
+LF2L.Calendar %>% 
+   filter(Scholar.year =="2022 - 2023", ) %>% 
+   filter(Hours <120) %>% 
+   mutate(Usage = case_when(
+      # INGEXYS / AIU
+      str_detect(Summary, "\\[reu\\]") ~ "[Reu] Reunion",
+      str_detect(Summary, "\\[vis\\]") ~ "[VIS] Visite",
+      str_detect(Summary, "\\[for\\]") ~ "[FOR] Formation",
+      str_detect(Summary, "\\[formu\\]") ~ "[FORMU] Formation Mutualisé",
+      str_detect(Summary, "\\[pro\\]") ~ "[PRO] Prototypage",
+      str_detect(Summary, "\\[exp\\]") ~ "[EXP] Expérimentation",
+      str_detect(Summary, "\\[cre\\]") ~ "[EXP] Créativité",
+      str_detect(Summary, "\\[sem\\]") ~ "[EXP] Séminaire",
+      str_detect(Summary, "\\[aut\\]") ~ "[AUT] Autre",
+      TRUE ~ 'Autre')
+   ) %>% 
+   ggplot( aes(x=Month, y=Hours, fill=Usage)) +
+   geom_bar(stat = 'Identity' ) +
+   theme_fabio() +
+   theme(legend.position="bottom") +
+   #coord_flip() +
+   #coord_cartesian(ylim = c(0,1000)) +
+   labs(title="Usage Pedagogique du LF2L - Période 2019-2024",
+        subtitle="Utilisant les entrées [int] de Zimbra",
+        x = "Année scolaire",
+        y = "Heures",
+        caption =  paste0("Denière mise à jour: ", format(Sys.time(), '%d/%m/%Y') )
+   ) +
+   scale_fill_brewer(palette="Paired")
+
+
+```
+
+
+
+## Specification de certains cours
 
 Certains cours sont possible des les repèrer dans le calendirer. Nottament CI3,CI6, Master IDEAS, IUVTT, AIU.
 Cepandant, il manque un travail sur le calendrier pour ameliorer la lisibilité d'une grand partie de *"l'Autre Usage Interne"*
