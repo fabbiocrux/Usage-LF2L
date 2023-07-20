@@ -29,8 +29,8 @@ Cat.usager$total <-
         subtitle="Utilisant les TOUS les entrées de Zimbra",
         x = "Année scolaire",
         y = "Heures",
-        caption= "Dernière mise à jour 19/07/2023")
-   
+        caption =  paste0("Denière mise à jour: ", format(Sys.time(), '%d/%m/%Y') )
+   )    
 
 # Categorie Usager Interne
 ## filtering ENSGSI ou ERPI
@@ -63,9 +63,12 @@ Cat.usager$externe  <-
    LF2L.Calendar %>% filter(Categorie =="Usage Externe" ) %>% 
    mutate(Hours = as.numeric(Hours)) %>% 
    mutate(User = case_when(
-      str_detect(Summary, "\\[aca\\]") ~ "Académique",
-      str_detect(Summary, "\\[ind\\]") ~ "Industriel",
-      str_detect(Summary, "\\[asso\\]") ~ "Associatif",
+      str_detect(Summary, "\\[aca\\]") ~ "Usage Academique",
+      str_detect(Summary, "aca") ~ "Usage Academique",
+      str_detect(Summary, "\\[ind\\]") ~ "Usage Industriel",
+      str_detect(Summary, "ind") ~ "Usage Industriel",
+      str_detect(Summary, "\\[asso\\]") ~ "Usage Associatif",
+      str_detect(Summary, "asso") ~ "Usage Associatif",
       TRUE ~ 'Autre Usage Externe')
    ) %>% 
    ggplot( aes(x=Scholar.year, y=Hours, fill=User)) +
@@ -79,3 +82,6 @@ Cat.usager$externe  <-
         caption =  paste0("Denière mise à jour: ", format(Sys.time(), '%d/%m/%Y') )
    ) 
 #ggsave("Figures/2023/Usage-LF2L.jpg", height = 5, width = 12 )
+
+
+

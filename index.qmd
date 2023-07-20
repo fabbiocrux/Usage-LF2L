@@ -35,6 +35,7 @@ theme_fabio <- function(base_size = 12, base_family = "Palatino"){
       )
 }
 source('R/01-Data.R')
+source('R/02-Categorie-usager.R')
 ```
 
 
@@ -95,16 +96,27 @@ Convention nommage :
 
 
 # Résultats
-## Analyse total des Activites par an
+## Analyse total des Activites selon ZIMBRA par anné
 
-```{r, include=FALSE}
+```{r}
+#| column: page
+#| fig-width: 9
+#| fig-height: 6
+
 # Graphic 1
 LF2L.Calendar %>% 
-   ggplot( aes(x=Month, y=Hours)) +
+   ggplot( aes(x=Scholar.year, y=Hours)) +
    geom_bar(stat = 'Identity' ) +
-   facet_grid( . ~ Scholar.year) +
-      theme_fabio()
+   theme_fabio() +
+   labs(title="Usage total du LF2L - Période 2019-2024",
+        subtitle="Utilisant les TOUS les entrées de Zimbra",
+        x = "Année scolaire",
+        y = "Heures",
+        caption =  paste0("Denière mise à jour: ", format(Sys.time(), '%d/%m/%Y') )
+   )    
 
+
+#test <- LF2L.Calendar %>% filter(Scholar.year == "2019 - 2020")
 #ggsave("Figures/2023/Total.jpg", height = 5, width = 22 )
 
 ```
@@ -115,9 +127,10 @@ LF2L.Calendar %>%
 
 ```{r Cat.usager}
 #| column: page
-source('R/02-Categorie-usager.R')
+#| message: false
 Cat.usager$total
 ```
+
 
 
 ### Usage Interne 
@@ -138,3 +151,19 @@ Codification [ent], avec type d'usage ACA (académique), IND (industriel) et ASS
 #| column: page
 Cat.usager$externe
 ```
+
+
+
+# Specification de certains cours
+
+Certains cours sont, nottament CI3,CI6, Master IDEAS, IUVTT, AIU
+
+
+
+```{r}
+#| column: page
+source('R/03-Cours.R')
+Courses$activity
+```
+
+
