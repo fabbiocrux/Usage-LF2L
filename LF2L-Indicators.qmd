@@ -1,0 +1,150 @@
+---
+title: "Usage pédagogique / Recherche du LF2L"
+author: "Fabio A. Cruz S"
+date: 2023-21-07
+date-format: short
+format: html
+execute:
+  echo: false
+title-block-banner: true
+---
+
+
+```{r}
+#| include: false  
+source('R/01-Data.R')
+```
+
+
+## Usage pédagogique du LF2L
+
+Les graphiques suivant montrent approximativement l’usage du LF2L dans le cadre pédagogique et la Recherche.
+
+A noter que le LF2L est ouvert environ $1840 / an$, à partir du calcul suivant : 40h / semaine X 46 semaines sur la base d’une ouverture 9h-12h30 et 13h30-18h, sachant que nous ouvrons avant 9h et que c’est hors événements spéciaux + NYBI (19h - Minuit tous les jeudis) soit 7 360 pour 4 ans (2015-2018).
+et sachant que deux, voire trois activités pédagogiques peuvent avoir lieu en même temps : par ex - un atelier côté espace collaboratif + un cours côté matérialsiation et un groupe projet 2AI.
+
+Nous n’avons ici pas référencé tous les usages de autres composantes ou services centraux de l’UL ou de l’ICEEL.
+En effet ces données sont trés éparses (une visite ou un ateliers de temps en temps) - estimation : 30 à 40 $h / an$
+
+
+## Calendrier ZIMBRA
+
+L'analyse est fait à partir du planning Zimbra de l’ENT de l’UL dont la nomenclature ci-dessous est prise en compte.
+
+
+- **Sujet** : [catégorie usager] [type usager] [usage] Titre descriptif
+- **Endroit** : [travers] [espace]
+- **Participants** : [organisateur] [réfèrent LF2L] [liste d’invités]
+- **Date** : [jj/mm/aaaa]
+- **Heure** : Début et fin de réservation / réunion / évènements
+- **Description** : [infos complémentaires]
+
+Convention nommage :
+1. [catégorie usager] : INT (interne) ou EXT (externe)
+
+1. [interne] [type usager] : ERPI ou ENSGSI
+1. [externe] [type usager] : 
+      - ACA (académique)
+      - IND (industriel) 
+      - ASSO (associatif)
+1. [usage] : 
+  - REU (réunion)
+  - VIS (visite)
+  - FOR (formation)
+  - FORMU (formation mutualisée) 
+  - PRO (prototypage)
+  - EXP (expérimentation)
+  - CRE (créativité)
+  - SEM (séminaire)
+  - AUT (autre)
+
+1. [travée] : 
+  - COL (collaboratif) 
+  - MAT (matérialisation) 
+  - LF2L
+
+1.[collaboratif] [espace] : IMM (immersive), VIS (visio) ou COL (collaborative)
+
+1. [organisateur] : email de la personne qui organise et demande la réservation
+1. [réfèrent LF2L] : email du réfèrent LF2L responsable d’accueillir la réunion
+1. [liste d’invités] : liste d’invités
+1. [infos complémentaires] : (optionnel) texte descriptive 
+
+
+
+# Résultats
+## Analyse total des Activites par an
+
+```{r}
+# Graphic 1
+LF2L.Calendar %>% 
+   ggplot( aes(x=Month, y=Hours)) +
+   geom_bar(stat = 'Identity' ) +
+   facet_grid( . ~ Scholar.year) +
+      theme_minimal()
+
+#ggsave("Figures/2023/Total.jpg", height = 5, width = 22 )
+
+```
+
+
+### Usage Interne et Externe
+
+
+```{r Cat.usager}
+# Sujet : [catégorie usager] [type usager] [usage] Titre descriptif
+
+## Par Categorie
+LF2L.Calendar <-  
+   LF2L.Calendar %>% mutate(Categorie = c(""))
+
+## Mapping usaga par Categorie
+LF2L.Calendar <- 
+   LF2L.Calendar %>% 
+    mutate(Categorie = case_when(
+      str_detect(Summary, "\\[int\\]") ~ "Usage Interne",
+      str_detect(Summary, "int") ~ "Usage Interne",
+      str_detect(Summary, "\\[ext\\]") ~ "Usage Externe",
+      str_detect(Summary, "ext") ~ "Usage Externe",
+      TRUE ~ "Autre")
+      ) 
+
+
+# Categorie Usager
+Cat.usager <- list()
+Cat.usager$lines <- LF2L.Calendar %>% group_by(Categorie) %>% tally() # Identify lines
+
+### Filtering the usage and calculating the Hr
+Usager <- 
+   LF2L.Calendar %>% filter(Categorie !="Autre" ) 
+Usager$Hours <- 
+   as.numeric(Usager$Hours)
+
+Usager <- tibble(Usager)
+
+Usager <- 
+   Usager %>% 
+    mutate(User = case_when(
+      str_detect(Summary, "\\[ensgsi\\]") ~ "ENSGSI",
+      str_detect(Summary, "ensgsi") ~ "ENSGSI",
+      str_detect(Summary, "\\[erpi\\]") ~ "ERPI",
+      str_detect(Summary, "erpi") ~ "ERPI",
+      TRUE ~ Categorie)
+      ) 
+
+
+# Graphic 1
+Usager %>% 
+   ggplot( aes(x=Scholar.year, y=Hours, fill=User)) +
+   geom_bar(stat = 'Identity' ) +
+   labs(title="Type d'usage du LF2L",
+        subtitle="Using les [int] & [ext] de Zimbra",
+        x = "Année scolaire",
+        y = "Heures",
+        caption= "Dernière mise à jour 19/07/2023") +
+      theme_minimal()
+
+#ggsave("Figures/2023/Usage-LF2L.jpg", height = 5, width = 12 )
+```
+
+
