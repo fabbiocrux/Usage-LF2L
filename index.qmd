@@ -36,6 +36,7 @@ theme_fabio <- function(base_size = 12, base_family = "Palatino"){
 }
 source('R/01-Data.R')
 source('R/02-Categorie-usager.R')
+source('R/03-Cours.R')
 ```
 
 
@@ -113,7 +114,9 @@ LF2L.Calendar %>%
         x = "Année scolaire",
         y = "Heures",
         caption =  paste0("Denière mise à jour: ", format(Sys.time(), '%d/%m/%Y') )
-   )    
+   )    +
+   scale_fill_brewer(palette="Set1")
+
 
 
 #test <- LF2L.Calendar %>% filter(Scholar.year == "2019 - 2020")
@@ -156,14 +159,17 @@ Cat.usager$externe
 
 # Specification de certains cours
 
-Certains cours sont, nottament CI3,CI6, Master IDEAS, IUVTT, AIU
-
-
+Certains cours sont possible des les repèrer dans le calendirer. Nottament CI3,CI6, Master IDEAS, IUVTT, AIU.
+Cepandant, il manque un travail sur le calendrier pour ameliorer la lisibilité d'une grand partie de *"l'Autre Usage Interne"*
 
 ```{r}
 #| column: page
-source('R/03-Cours.R')
+#| fig-width: 9
+#| fig-height: 6
+
 Courses$activity
 ```
 
+
+# Usage Anne 2022 - 2023
 

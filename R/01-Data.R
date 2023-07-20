@@ -89,4 +89,7 @@ LF2L.Calendar <-
 LF2L.Calendar <- 
    LF2L.Calendar %>% 
    filter(Scholar.year %in% c("2023 - 2024", "2022 - 2023", "2021 - 2022", "2020 - 2021", "2019 - 2020"))
-   
+
+# As numeric the hoours
+LF2L.Calendar <- 
+   LF2L.Calendar %>% mutate(Hours = as.numeric(Hours)) 
