@@ -8,6 +8,7 @@ library(calendar)
 char_vec <- readLines("Data/2023-05-09-Cal.ics")
 LF2L.Calendar <- ical_parse_df(text = char_vec)
 
+
 # Selecting the columns
 LF2L.Calendar <- 
    LF2L.Calendar %>% select(start,end,summary,description)

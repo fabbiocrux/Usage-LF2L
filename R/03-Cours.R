@@ -49,6 +49,8 @@ Courses$activity  <-
         y = "Heures",
         caption =  paste0("Denière mise à jour: ", format(Sys.time(), '%d/%m/%Y') )
    ) 
+
+
 #ggsave("Figures/2023/Usage-LF2L.jpg", height = 5, width = 12 )
 
 

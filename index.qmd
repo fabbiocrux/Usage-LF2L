@@ -37,6 +37,7 @@ theme_fabio <- function(base_size = 12, base_family = "Palatino"){
 source('R/01-Data.R')
 source('R/02-Categorie-usager.R')
 source('R/03-Cours.R')
+source('R/04-Usage.R')
 ```
 
 
@@ -64,14 +65,17 @@ L'analyse est fait à partir du planning Zimbra de l’ENT de l’UL dont la nom
 - **Description** : [infos complémentaires]
 
 Convention nommage :
-1. [catégorie usager] : INT (interne) ou EXT (externe)
+1. `[catégorie usager]` : INT (interne) ou EXT (externe)
 
-1. [interne] [type usager] : ERPI ou ENSGSI
-1. [externe] [type usager] : 
+1. `[interne] [type usager]` : ERPI ou ENSGSI
+1. `[externe] [type usager]` : 
+
       - ACA (académique)
       - IND (industriel) 
       - ASSO (associatif)
-1. [usage] : 
+
+1. `[usage]`: 
+
   - REU (réunion)
   - VIS (visite)
   - FOR (formation)
@@ -82,18 +86,19 @@ Convention nommage :
   - SEM (séminaire)
   - AUT (autre)
 
-1. [travée] : 
+1. `[travée]` : 
+
   - COL (collaboratif) 
   - MAT (matérialisation) 
   - LF2L
 
-1.[collaboratif] [espace] : IMM (immersive), VIS (visio) ou COL (collaborative)
+1. `[collaboratif] [espace]` : IMM (immersive), VIS (visio) ou COL (collaborative)
 
-1. [organisateur] : email de la personne qui organise et demande la réservation
-1. [réfèrent LF2L] : email du réfèrent LF2L responsable d’accueillir la réunion
-1. [liste d’invités] : liste d’invités
-1. [infos complémentaires] : (optionnel) texte descriptive 
+1. `[organisateur]` : email de la personne qui organise et demande la réservation
 
+1. `[réfèrent LF2L]` : email du réfèrent LF2L responsable d’accueillir la réunion
+1. `[liste d’invités]` : liste d’invités
+1. `[infos complémentaires]` : (optionnel) texte descriptive 
 
 
 # Résultats
@@ -155,6 +160,17 @@ Codification [ent], avec type d'usage ACA (académique), IND (industriel) et ASS
 Cat.usager$externe
 ```
 
+## Usage selon la codification Zimbra
+
+```{r}
+#| column: page
+#| fig-width: 9
+#| fig-height: 6
+
+Usage$activity
+
+```
+
 
 
 # Specification de certains cours
@@ -164,12 +180,11 @@ Cepandant, il manque un travail sur le calendrier pour ameliorer la lisibilité 
 
 ```{r}
 #| column: page
-#| fig-width: 9
+#| fig-width: 10
 #| fig-height: 6
 
 Courses$activity
 ```
 
 
-# Usage Anne 2022 - 2023
 
