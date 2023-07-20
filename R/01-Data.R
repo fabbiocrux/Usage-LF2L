@@ -84,3 +84,9 @@ LF2L.Calendar <-
                          levels=c("Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug")
    ))
 
+
+# Filtering the years 2020-2023
+LF2L.Calendar <- 
+   LF2L.Calendar %>% 
+   filter(Scholar.year %in% c("2023 - 2024", "2022 - 2023", "2021 - 2022", "2020 - 2021", "2019 - 2020"))
+   
