@@ -132,7 +132,7 @@ Cat.usager$interne
 
 ### Usage Externe
 
-Codification seulement [ent], on peut identifier la proportion ENSGSI, ERPI et autre
+Codification [ent], avec type d'usage ACA (académique), IND (industriel) et ASSO (associatif).
 
 ```{r}
 #| column: page

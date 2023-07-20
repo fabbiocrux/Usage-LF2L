@@ -71,6 +71,7 @@ Cat.usager$externe  <-
    ggplot( aes(x=Scholar.year, y=Hours, fill=User)) +
    geom_bar(stat = 'Identity' ) +
    theme_fabio() +
+   coord_cartesian(ylim = c(0,200)) +
    labs(title="Usage Externe du LF2L - Période 2019-2024",
         subtitle="Utilisant les entrées [ext] de Zimbra",
         x = "Année scolaire",
